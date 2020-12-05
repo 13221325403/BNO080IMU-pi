@@ -289,7 +289,8 @@ def _parse_shake_report(report_bytes):
 def parse_sensor_id(buffer):
     """Parse the fields of a product id report"""
     if not buffer[0] == _SHTP_REPORT_PRODUCT_ID_RESPONSE:
-        raise AttributeError("Wrong report id for sensor id: %s" % hex(buffer[0]))
+        print("Wrong report id for sensor id: %s" % hex(buffer[0]))
+        # raise AttributeError("Wrong report id for sensor id: %s" % hex(buffer[0]))
 
     sw_major = unpack_from("<B", buffer, offset=2)[0]
     sw_minor = unpack_from("<B", buffer, offset=3)[0]
@@ -319,10 +320,14 @@ def _insert_command_request_report(
     command, buffer, next_sequence_number, command_params=None
 ):
     if command_params and len(command_params) > 9:
-        raise AttributeError(
+        print(
             "Command request reports can only have up to 9 arguments but %d were given"
             % len(command_params)
         )
+        # raise AttributeError(
+        #     "Command request reports can only have up to 9 arguments but %d were given"
+        #     % len(command_params)
+        # )
     for _i in range(12):
         buffer[_i] = 0
     buffer[0] = _COMMAND_REQUEST
@@ -354,7 +359,8 @@ def _separate_batch(packet, report_slices):
 
         # handle incomplete remainder
         if unprocessed_byte_count < required_bytes:
-            raise RuntimeError("Unprocessable Batch bytes", unprocessed_byte_count)
+            print("Unprocessable Batch bytes", unprocessed_byte_count)
+            # raise RuntimeError("Unprocessable Batch bytes", unprocessed_byte_count)
         # we have enough bytes to read
         # add a slice to the list that was passed in
         report_slice = packet.data[next_byte_index : next_byte_index + required_bytes]
@@ -516,7 +522,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
             except:  # pylint:disable=bare-except
                 time.sleep(0.5)
         else:
-            raise RuntimeError("Could not read ID")
+            print("Could not read ID")
+            # raise RuntimeError("Could not read ID")
 
     @property
     def magnetic(self):
@@ -525,7 +532,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_MAGNETOMETER]
         except KeyError:
-            raise RuntimeError("No magfield report found, is it enabled?") from None
+            print("No magfield report found, is it enabled?")
+            # raise RuntimeError("No magfield report found, is it enabled?") from None
 
     @property
     def quaternion(self):
@@ -534,7 +542,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_ROTATION_VECTOR]
         except KeyError:
-            raise RuntimeError("No quaternion report found, is it enabled?") from None
+            print("No quaternion report found, is it enabled?")
+            # raise RuntimeError("No quaternion report found, is it enabled?") from None
 
     @property
     def geomagnetic_quaternion(self):
@@ -543,9 +552,12 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_GEOMAGNETIC_ROTATION_VECTOR]
         except KeyError:
-            raise RuntimeError(
+            print(
                 "No geomag quaternion report found, is it enabled?"
-            ) from None
+            )
+            # raise RuntimeError(
+            #     "No geomag quaternion report found, is it enabled?"
+            # ) from None
 
     @property
     def game_quaternion(self):
@@ -557,9 +569,12 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_GAME_ROTATION_VECTOR]
         except KeyError:
-            raise RuntimeError(
+            print(
                 "No game quaternion report found, is it enabled?"
-            ) from None
+            )
+            # raise RuntimeError(
+            #     "No game quaternion report found, is it enabled?"
+            # ) from None
 
     @property
     def steps(self):
@@ -568,7 +583,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_STEP_COUNTER]
         except KeyError:
-            raise RuntimeError("No steps report found, is it enabled?") from None
+            print("No steps report found, is it enabled?")
+            # raise RuntimeError("No steps report found, is it enabled?") from None
 
     @property
     def linear_acceleration(self):
@@ -578,7 +594,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_LINEAR_ACCELERATION]
         except KeyError:
-            raise RuntimeError("No lin. accel report found, is it enabled?") from None
+            print("No lin. accel report found, is it enabled?")
+            # raise RuntimeError("No lin. accel report found, is it enabled?") from None
 
     @property
     def acceleration(self):
@@ -588,7 +605,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_ACCELEROMETER]
         except KeyError:
-            raise RuntimeError("No accel report found, is it enabled?") from None
+            print("No accel report found, is it enabled?")
+            # raise RuntimeError("No accel report found, is it enabled?") from None
 
     @property
     def gyro(self):
@@ -598,7 +616,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         try:
             return self._readings[BNO_REPORT_GYROSCOPE]
         except KeyError:
-            raise RuntimeError("No gyro report found, is it enabled?") from None
+            # raise RuntimeError("No gyro report found, is it enabled?") from None
+            print("No gyro report found, is it enabled?")
 
     @property
     def shake(self):
@@ -766,7 +785,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
             self._process_available_packets()
             if self._dcd_saved_at > start_time:
                 return
-        raise RuntimeError("Could not save calibration data")
+        # raise RuntimeError("Could not save calibration data")
+        print("Could not save calibration data")
 
     ############### private/helper methods ###############
     # # decorator?
@@ -811,7 +831,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
                 self._dbg("passing packet to handler for de-slicing")
                 self._handle_packet(new_packet)
 
-        raise RuntimeError("Timed out waiting for a packet on channel", channel_number)
+        # raise RuntimeError("Timed out waiting for a packet on channel", channel_number)
+        print("Timed out waiting for a packet on channel", channel_number)
 
     def _wait_for_packet(self, timeout=_PACKET_READ_TIMEOUT):
         start_time = time.monotonic()
@@ -820,7 +841,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
                 continue
             new_packet = self._read_packet()
             return new_packet
-        raise RuntimeError("Timed out waiting for a packet")
+        # raise RuntimeError("Timed out waiting for a packet")
+        print("Timed out waiting for a packet")
 
     # update the cached sequence number so we know what to increment from
     # TODO: this is wrong there should be one per channel per direction
@@ -838,7 +860,7 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
                 self._process_report(*self._packet_slices.pop())
         except Exception as error:
             print(packet)
-            raise error
+            # raise error
 
     def _handle_control_report(self, report_id, report_bytes):
         if report_id == _SHTP_REPORT_PRODUCT_ID_RESPONSE:
@@ -885,7 +907,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
             if command_status == 0:
                 self._dcd_saved_at = time.monotonic()
             else:
-                raise RuntimeError("Unable to save calibration data")
+                print("Unable to save calibration data")
+            #     raise RuntimeError("Unable to save calibration data")
 
     def _process_report(self, report_id, report_bytes):
         if report_id >= 0xF0:
@@ -975,7 +998,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
             self._process_available_packets(max_packets=10)
             if feature_id in self._readings:
                 return
-        raise RuntimeError("Was not able to enable feature", feature_id)
+        print("Was not able to enable feature", feature_id)
+        # raise RuntimeError("Was not able to enable feature", feature_id)
 
     def _check_id(self):
         self._dbg("\n********** READ ID **********")
@@ -1030,7 +1054,8 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
     # pylint:disable=no-self-use
     @property
     def _data_ready(self):
-        raise RuntimeError("Not implemented")
+        print("Not implemented")
+        # raise RuntimeError("Not implemented")
 
     def hard_reset(self):
         """Hardware reset the sensor to an initial unconfigured state"""
@@ -1066,10 +1091,13 @@ class BNO08X:  # pylint: disable=too-many-instance-attributes, too-many-public-m
         # all is good!
 
     def _send_packet(self, channel, data):
-        raise RuntimeError("Not implemented")
+        # raise RuntimeError("Not implemented")
+        print("Not implemented")
 
     def _read_packet(self):
-        raise RuntimeError("Not implemented")
+        print("Not implemented")
+        # raise RuntimeError("Not implemented")
+
 
     def _increment_report_seq(self, report_id):
         current = self._two_ended_sequence_numbers.get(report_id, 0)

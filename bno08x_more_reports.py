@@ -21,9 +21,9 @@ bno.enable_feature(adafruit_bno08x.BNO_REPORT_STEP_COUNTER)
 bno.enable_feature(adafruit_bno08x.BNO_REPORT_STABILITY_CLASSIFIER)
 bno.enable_feature(adafruit_bno08x.BNO_REPORT_ACTIVITY_CLASSIFIER)
 bno.enable_feature(adafruit_bno08x.BNO_REPORT_SHAKE_DETECTOR)
-bno.enable_feature(adafruit_bno08x.BNO_REPORT_RAW_ACCELEROMETER)
-bno.enable_feature(adafruit_bno08x.BNO_REPORT_RAW_GYROSCOPE)
-bno.enable_feature(adafruit_bno08x.BNO_REPORT_RAW_MAGNETOMETER)
+# bno.enable_feature(adafruit_bno08x.BNO_REPORT_RAW_ACCELEROMETER)
+# bno.enable_feature(adafruit_bno08x.BNO_REPORT_RAW_GYROSCOPE)
+# bno.enable_feature(adafruit_bno08x.BNO_REPORT_RAW_MAGNETOMETER)
 
 while True:
     time.sleep(0.1)
@@ -102,32 +102,32 @@ while True:
         "confidence: %d/100" % activity_classification[most_likely],
     )
 
-    print("Raw Acceleration:")
-    (raw_accel_x, raw_accel_y, raw_accel_z,) = bno.raw_acceleration
-    print(
-        "X: 0x{0:04X}  Y: 0x{1:04X} Z: 0x{2:04X} LSB".format(
-            raw_accel_x, raw_accel_y, raw_accel_z
-        )
-    )
-    print("")
-
-    print("Raw Gyro:")
-    (raw_accel_x, raw_accel_y, raw_accel_z,) = bno.raw_gyro
-    print(
-        "X: 0x{0:04X}  Y: 0x{1:04X} Z: 0x{2:04X} LSB".format(
-            raw_accel_x, raw_accel_y, raw_accel_z
-        )
-    )
-    print("")
-
-    print("Raw Magnetometer:")
-    (raw_mag_x, raw_mag_y, raw_mag_z,) = bno.raw_magnetic
-    print(
-        "X: 0x{0:04X}  Y: 0x{1:04X} Z: 0x{2:04X} LSB".format(
-            raw_mag_x, raw_mag_y, raw_mag_z
-        )
-    )
-    print("")
+    # print("Raw Acceleration:")
+    # (raw_accel_x, raw_accel_y, raw_accel_z,) = bno.raw_acceleration
+    # print(
+    #     "X: 0x{0:04X}  Y: 0x{1:04X} Z: 0x{2:04X} LSB".format(
+    #         raw_accel_x, raw_accel_y, raw_accel_z
+    #     )
+    # )
+    # print("")
+    #
+    # print("Raw Gyro:")
+    # (raw_accel_x, raw_accel_y, raw_accel_z,) = bno.raw_gyro
+    # print(
+    #     "X: 0x{0:04X}  Y: 0x{1:04X} Z: 0x{2:04X} LSB".format(
+    #         raw_accel_x, raw_accel_y, raw_accel_z
+    #     )
+    # )
+    # print("")
+    #
+    # print("Raw Magnetometer:")
+    # (raw_mag_x, raw_mag_y, raw_mag_z,) = bno.raw_magnetic
+    # print(
+    #     "X: 0x{0:04X}  Y: 0x{1:04X} Z: 0x{2:04X} LSB".format(
+    #         raw_mag_x, raw_mag_y, raw_mag_z
+    #     )
+    # )
+    # print("")
     time.sleep(0.4)
     if bno.shake:
         print("SHAKE DETECTED!")
